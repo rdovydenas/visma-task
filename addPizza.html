@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add a pizza</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="wrapper">
+        <div>
+          <img
+            src="https://www.designfreelogoonline.com/wp-content/uploads/2017/04/000821-Free-Logo-Maker-create-free-italian-pizza-Logo-design-01.png"
+            alt="nav-logo"
+          />
+        </div>
+        <div>
+          <a href="/index.html">Menu</a>
+          <a href="/addPizza.html">Add a pizza</a>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+      <form name="addForm" autocomplete="off">
+        <h1>Add a Pizza</h1>
+        <label for="name">Pizza name:</label>
+        <input
+          type="text"
+          name="name"
+          maxlength="30"
+          placeholder="Hawaii"
+          required
+        />
+
+        <label for="price">Place a price:</label>
+        <input
+          type="number"
+          name="price"
+          step="0.01"
+          placeholder="7.99"
+          required
+        />
+
+        <label for="heat">Select heat level:</label>
+        <select id="heat" name="heat">
+          <option value="">None</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+
+        <label for="toppings">Add some toppings:</label>
+        <input
+          type="text"
+          name="toppings"
+          placeholder="Cheese, Bacon, Chicken..."
+          required
+        />
+
+        <label for="photo">Select an image...</label>
+        <input
+          type="file"
+          name="photo"
+          accept="image/png, image/jpeg"
+          multiple
+        />
+
+        <button class="submit-btn" type="submit">Add pizza</button>
+      </form>
+    </main>
+
+    <script>
+      const showNotification = (msgText) => {
+        const main = document.querySelector("main");
+
+        const notificationBlock = document.createElement("div");
+        notificationBlock.classList = "notification";
+
+        const message = document.createElement("p");
+        message.innerHTML = msgText;
+
+        const closeButton = document.createElement("button");
+        closeButton.classList = "close-btn";
+        closeButton.textContent = "x";
+
+        closeButton.addEventListener("click", () => {
+          notificationBlock.remove();
+        });
+
+        setTimeout(() => {
+          notificationBlock.remove();
+        }, 7000);
+
+        notificationBlock.append(message, closeButton);
+        main.prepend(notificationBlock);
+      };
+
+      const form = document.forms.addForm;
+
+      const pizzaData = [];
+
+      sessionStorage.getItem("pizzaData") === null
+        ? console.log("nera")
+        : pizzaData.push(...JSON.parse(sessionStorage.getItem("pizzaData")));
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const name = String(e.target.name.value.trim().toLowerCase());
+        const price = Number(e.target.price.value).toFixed(2);
+        const heat = Number(e.target.heat.value);
+        const toppings = e.target.toppings.value.split(",");
+        const photo = toBase64(e.target.photo.files[0]);
+
+        function toBase64(file) {
+          const reader = new FileReader();
+          reader.addEventListener("load", () => {
+            localStorage.setItem("image", reader.result);
+          });
+          reader.readAsDataURL(file);
+        }
+
+        console.log(photo);
+
+        const uniqueName = pizzaData.find((item) => item.name === name);
+
+        if (uniqueName !== undefined) {
+          const msgText =
+            '<span class="declined">&#x292B;</span> Pizza name already exists';
+          showNotification(msgText);
+        } else {
+          const newPizza = {
+            name: name,
+            price: price,
+            heat: heat,
+            toppings: toppings,
+            photo: localStorage.getItem("image"),
+          };
+
+          pizzaData.push(newPizza);
+
+          sessionStorage.setItem("pizzaData", JSON.stringify(pizzaData));
+
+          const msgText =
+            '<span class="success">&#x2713;</span> Successfully added a pizza';
+          showNotification(msgText);
+
+          form.reset();
+        }
+      });
+    </script>
+  </body>
+</html>

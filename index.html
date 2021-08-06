@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Menu</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="wrapper">
+        <div>
+          <img
+            src="https://www.designfreelogoonline.com/wp-content/uploads/2017/04/000821-Free-Logo-Maker-create-free-italian-pizza-Logo-design-01.png"
+            alt="nav-logo"
+          />
+        </div>
+        <div>
+          <a href="/index.html">Menu</a>
+          <a href="/addPizza.html">Add a pizza</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="wrapper">
+      <h1>Our Selection</h1>
+    </main>
+
+    <script>
+      const pizzaData = JSON.parse(sessionStorage.getItem("pizzaData"));
+      const main = document.querySelector("main");
+      const Cards = document.createElement("div");
+      Cards.classList = "cards";
+
+      if (!pizzaData || pizzaData.length < 1) {
+        const heading = document.querySelector("h1");
+        heading.textContent = "No pizzas";
+      } else
+        pizzaData.forEach((item) => {
+          const Card = document.createElement("div");
+          Card.classList = "card";
+
+          const deleteButton = document.createElement("button");
+          deleteButton.classList = "declined";
+          deleteButton.textContent = "x";
+
+          const img = document.createElement("img");
+          img.src = item.photo;
+
+          const heatValue = item.heat;
+          const nameAndHeat = document.createElement("div");
+          nameAndHeat.textContent =
+            item.name.slice(0, 1).toUpperCase() + item.name.slice(1);
+
+          deleteButton.addEventListener("click", () => {
+            const name = item.name;
+            const confirmation = confirm(`Delete ${name}?`);
+
+            if (confirmation == true) {
+              const updatedPizzaData = pizzaData.filter(
+                (pizza) => pizza.name !== name
+              );
+              sessionStorage.setItem(
+                "pizzaData",
+                JSON.stringify(updatedPizzaData)
+              );
+              window.location.reload();
+            }
+          });
+
+          function showHeat() {
+            for (let value = 0; value < heatValue; value++) {
+              const heat = document.createElement("img");
+              heat.classList = "pepper";
+              heat.src = "https://www.svgrepo.com/show/45673/chili-pepper.svg";
+              console.log(heat);
+              nameAndHeat.append(heat);
+            }
+          }
+
+          const price = document.createElement("p");
+          price.textContent = item.price + "$";
+
+          const toppings = document.createElement("p");
+          toppings.textContent = item.toppings.map((topping) => {
+            return (
+              topping.trim().slice(0, 1).toUpperCase() + topping.trim().slice(1)
+            );
+          });
+
+          showHeat();
+
+          Card.append(deleteButton, img, nameAndHeat, price, toppings);
+          Cards.append(Card);
+          main.append(Cards);
+        });
+    </script>
+  </body>
+</html>

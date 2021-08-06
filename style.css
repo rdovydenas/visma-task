@@ -1,0 +1,163 @@
+body {
+  font-family: cursive;
+  background-color: darkgreen;
+}
+
+.wrapper {
+  width: 80%;
+  margin: 0 auto;
+}
+
+header {
+  background-color: rgb(207, 131, 184);
+  height: 4rem;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  height: 100%;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+nav img {
+  height: 5rem;
+  margin-bottom: -4rem;
+}
+
+h1 {
+  margin-top: 4rem;
+  color: rgb(206, 24, 24);
+}
+
+form {
+  background-color: rgb(255, 242, 242);
+  width: 50%;
+  margin: 3rem auto;
+  border-radius: 0.8rem;
+  box-shadow: #eee;
+  padding: 3rem;
+}
+
+input,
+select {
+  box-sizing: border-box;
+  background-color: transparent;
+  border: 0;
+  border-bottom: 2px solid rgb(255, 78, 78);
+  border-bottom-left-radius: 1.5rem;
+  width: 100%;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  outline: none;
+}
+
+.submit-btn {
+  margin: 1rem 0;
+  width: 30%;
+  background-color: rgb(207, 131, 184);
+  color: white;
+  border: none;
+  border-radius: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+.notification {
+  font-size: 1.2rem;
+  display: flex;
+  height: 2rem;
+  width: 50%;
+  margin: 1rem auto;
+  padding: 0.4rem;
+  border: none;
+  border-radius: 0.2rem;
+  background: transparent;
+  color: white;
+  text-align: center;
+  transition: 0.4s ease-in-out;
+  justify-content: space-between;
+}
+
+.notification:hover {
+  opacity: 0.9;
+}
+
+.success {
+  color: aquamarine;
+  font-size: 1.8rem;
+}
+
+.declined {
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  color: red;
+  font-size: 1.8rem;
+}
+
+.close-btn {
+  font-size: 2rem;
+  background-color: transparent;
+  color: white;
+  border: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  transition: 0.4s ease-in-out;
+}
+
+.close-btn:hover {
+  opacity: 0.8;
+}
+
+p {
+  margin: 0.5rem 0;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  width: 100%;
+  height: 100%;
+}
+
+.card {
+  background-color: rgb(207, 131, 184);
+  box-sizing: border-box;
+  padding: 1.5rem;
+  margin: 1.5rem;
+  width: calc(33% - 3rem);
+  border: 1px solid transparent;
+  border-radius: 1rem;
+}
+
+@media (max-width: 700px) {
+  .cards {
+    display: block;
+  }
+
+  .card {
+    width: 100%;
+  }
+}
+
+.card > img {
+  width: 100%;
+  max-height: 50%;
+  margin-bottom: 1rem;
+}
+
+.pepper {
+  width: 1.5rem;
+  margin-left: 0.4rem;
+}
+
+.radio {
+  display: flex;
+}
